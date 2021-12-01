@@ -1,0 +1,3 @@
+bu klasör zorunlu değildir özelleştirilmiş admin panelinin 
+teması burda bulunacaktr sistem çalıştırğında burda dosyalar
+ise default değilde burası çalışacak admin teması burası olacak

@@ -1,0 +1,9 @@
+RewriteEngine on
+
+RewriteBase /CmsFramework/
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([\w-]+)?$ system/start.php?reqone=$1 [L,NC]
+RewriteRule ^([\w-]+)/?$ system/start.php?reqone=$1 [L,NC]
+RewriteRule ^([\w-]+)/([\w-]+)?$ system/start.php?reqone=$1&reqtwo=$2 [L,NC]
+RewriteRule ^([\w-]+)/([\w-]+):([0-9]+)?$ system/start.php?reqone=$1&reqtwo=$2&id=$3 [L,NC]

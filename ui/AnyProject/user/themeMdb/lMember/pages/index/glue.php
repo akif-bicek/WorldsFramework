@@ -1,0 +1,1 @@
+<?php requires(__DIR__."parts"); ?>
