@@ -1,73 +1,56 @@
-$( window ).on( "load", function() {
-
-});
-let itemBank=[];
+let itemBank = [];
 $( document ).ready(function() {
     //detail page lister
-    //değiştirilecek tamamiyle tekil listelemeyi tamamlamak için şimdilik böyle yapıyoruz framework.js,homephp,functions.php sayfalarında değişiklik olacaktur
-    if ($("#pageunique").length>0) {
+    if ($("#pageunique").length > 0) {
         let page = $("#pageunique").attr("data-page");
         let pageunique = $("#pageunique").val();
-        let me = $(".detail-area[data-table='"+page+"']");
-        let data = getRow(page,pageunique);
+        let me = $(".detail-area[data-table='"  + page + "']");
+        let data = getRow(page, pageunique);
         detailAreaSaver(page);
-        lister(me,data,page);
+        lister(me, data, page);
         uiFunc[page](page);
     }
-    //detail pagelister end
+    //detail page lister end
+
+    // data-layer divs connect and lister by models
     $( ".data-layer" ).each(function( index ) {
         let me = $( this );
         let table = me.attr("data-table");
         let datas = jsonDatas[table];
-        lister(me,datas);
+        lister(me, datas);
     });
+
+    // sayfa içindeki tüm detay alanlarının hazırlanması
+    /*  */
     $(".detail").each(function (i) {
         let me = $(this);
         let params = getDivParams(me);
-        let uniqe,type,event,table;
-        if (params!=false){
-            uniqe = params[0];
-            event = params[1];
-            table = params[2];
-            type = params[2];
+        let uniqe, type, event, table;
+        if (params != false){
+            uniqe = params[0]; // it is primary key in table
+            event = params[1]; // it is trigger. Hangi olay olduğunda tetiklenecek
+            table = params[2]; // datatable name in models (database)
+            type  = params[2];
         }else{
             uniqe = me.attr("data-uniqe");
-            type = me.attr("data-type");
+            type  = me.attr("data-type");
             event = me.attr("data-event");
             table = me.attr("data-table");
         }
         detailAreaSaver(table);
-        $(document).on(event,".detail:eq("+i+")",function() {
-            //type == "reload"? window.location = uniqe:"";
-            type=="reload" && redirect(uniqe);
-            notReload(table,uniqe);
+        $(document).on(event, ".detail:eq(" + i +")",function() {
+            type == "reload" && redirect(uniqe);
+            notReload(table, uniqe);
         });
     });
-    /*$(".sub-str").each(function () {
-        let me = $( this );
-        let strend = me.attr("data-strend");
-        let target = me.attr("data-taget");
-        let val = "";
-        if (isUndefined(target)){
-            val = me.html();
-        }else{
-            val = me.attr(target);
-        }
-        strend = strend.split("-");
-        let newValue = val.substring(parseInt(strend[0]),parseInt(strend[1]));
-        if (isUndefined(target)){
-            me.html(newValue);
-        }else{
-            me.attr(target,newValue);
-        }
-    });*/
 });
+//
 function detailAreaSaver(table) {
-    let area = $(".detail-area[data-table='"+table+"']");
+    let area = $(".detail-area[data-table='" + table + "']");
     area.each(function (j) {
-        let itemKey = table+j;
+        let itemKey = table + j;
         if (!(itemKey in itemBank)){
-            itemBank[table+j] = area.eq(j).html();
+            itemBank[table + j] = area.eq(j).html();
         }
     });
 }
@@ -82,7 +65,7 @@ function getDivParams(div) {
         return params;
     }
 }
-function lister(div,datas,table="") {
+function lister(div, datas, table="") {
     div.each(function (j) {
         let item;
         if(table != ""){
@@ -138,7 +121,7 @@ function getRow(table,uniqe) {
     return row;
 }
 function redirect(link) {
-    window.location = link;0
+    window.location = link;
 }
 function helperFuncsDetectAndReplaceAll(itemHtml,column,data) {
     let colCount = strFindCount(itemHtml,"{"+column);
